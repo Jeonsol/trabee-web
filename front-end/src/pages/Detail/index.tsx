@@ -21,7 +21,7 @@ import { TRIP, tripActions } from '@modules/trips';
 import { BUDGET, budgetActions } from '@modules/budget';
 import { NEW_ROUTER_ID } from '@pages/Home';
 
-import { EXPENSE_DATE_FILTER } from '@constants/type';
+import { EXPENSE_DATE_FILTER, EXPENSE_TYPE } from '@constants/type';
 
 const style = require('./index.scss');
 const cx = classNames.bind(style);
@@ -53,7 +53,7 @@ const Detail: React.FC<IOwnProps> = ({ match, history }) => {
   const dispatch = useDispatch();
 
   const [id, setId] = useState(match.params.id);
-  const [activeTab, setActiveTab] = useState(TAB_INFO.CURRENCY.name);
+  const [activeTab, setActiveTab] = useState(TAB_INFO.PROFILE.name);
   const [isOpenLayer, setIsOpenLayer] = useState(false);
   const [isOpenSpendingLayer, setIsOpenSpendingLayer] = useState(false);
   const [isOpenIncomeLayer, setIsOpenIncomeLayer] = useState(false);
@@ -79,9 +79,18 @@ const Detail: React.FC<IOwnProps> = ({ match, history }) => {
     dispatch(resetCurrentBudgetInfo());
   };
 
-  const handleClickExpenseItem = (id: any) => {
+  const handleClickExpenseItem = ({
+    id,
+    type
+  }: {
+    id: string,
+    type: string
+  }) => {
     dispatch(getCurrentBudgetInfo({ id }));
-    setIsOpenSpendingLayer(true);
+
+    if (type === EXPENSE_TYPE.SPENDING) setIsOpenSpendingLayer(true);
+
+    if (type === EXPENSE_TYPE.INCOME) setIsOpenIncomeLayer(true);
   };
 
   useEffect(() => {
@@ -174,12 +183,13 @@ const Detail: React.FC<IOwnProps> = ({ match, history }) => {
             currentBudgetInfo={currentBudgetInfo}
           />
         )}
-        {!isOpenIncomeLayer && (
+        {isOpenIncomeLayer && (
           <IncomeLayer
             activeDateFilter={activeDateFilter}
             currentTripInfo={currentTripInfo}
             onSetIsOpenIncomeLayer={setIsOpenIncomeLayer}
             currentBudgetInfo={currentBudgetInfo}
+            userId={userId}
           />
         )}
       </div>

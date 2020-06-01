@@ -32,7 +32,7 @@ const ExpenseItem: React.FC<IOwnProps> = ({
   onClickExpenseItem
 }) => {
   const handleClick = () => {
-    onClickExpenseItem(id);
+    onClickExpenseItem({ id, type });
   };
 
   return (
