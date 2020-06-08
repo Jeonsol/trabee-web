@@ -37,7 +37,7 @@ const {
 
 interface IOwnProps {
   match: any;
-  history: any;
+  history: History;
 }
 
 const Detail: React.FC<IOwnProps> = ({ match, history }) => {
@@ -61,7 +61,7 @@ const Detail: React.FC<IOwnProps> = ({ match, history }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeDateFilter, setDateActiveFilter] = useState(EXPENSE_DATE_FILTER.ALL);
 
-  const updateTab = (tabName: any) => {
+  const updateTab = (tabName: string) => {
     setActiveTab(tabName);
   };
 
